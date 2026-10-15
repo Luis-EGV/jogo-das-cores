@@ -1,0 +1,234 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+  <title>Desafio das Cores</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#7c3aed">
+  <link rel="icon" href="icone-192.png" type="image/png">
+</head>
+<body>
+
+<main class="container">
+
+  <header class="cabecalho">
+    <span class="logo">🎨 DESAFIO DAS CORES</span>
+
+    <div class="acoes-topo">
+      <span class="versao">MODO LOCAL</span>
+      <button id="btnMenu" hidden>
+        Menu
+      </button>
+    </div>
+  </header>
+
+  <!-- CADASTRO -->
+  <section id="telaInicio" class="painel">
+    <div class="icone">🎨</div>
+    <h1>Quem vai jogar?</h1>
+    <p class="descricao">
+      Adicione seus amigos e prepare a disputa!
+    </p>
+
+    <div class="form-jogador">
+      <input id="nomeJogador"
+             maxlength="20"
+             placeholder="Nome do jogador">
+      <button id="btnAdicionar">+ Adicionar</button>
+    </div>
+
+    <div id="listaJogadores"></div>
+    <p id="mensagem"></p>
+
+    <div class="configuracoes">
+      <label for="quantidadeCiclos">
+        Quantas vezes cada jogador dará dicas?
+      </label>
+
+      <select id="quantidadeCiclos">
+        <option value="1">1 vez — Partida rápida</option>
+        <option value="2">2 vezes — Partida média</option>
+        <option value="3" selected>3 vezes — Partida normal</option>
+        <option value="5">5 vezes — Partida longa</option>
+      </select>
+    </div>
+
+    <!-- CONFIGURAÇÃO DO TIMER -->
+    <div class="configuracoes">
+      <label for="tempoPalpite">
+        ⏱️ Tempo para cada jogador adivinhar:
+      </label>
+
+      <select id="tempoPalpite">
+        <option value="0" selected>Sem tempo</option>
+        <option value="10">10 segundos</option>
+        <option value="15">15 segundos</option>
+        <option value="20">20 segundos</option>
+      </select>
+    </div>
+
+    <button id="btnComecar" disabled>
+      Começar partida
+    </button>
+
+    <button id="btnContinuarPartida" hidden>
+      Continuar partida salva
+    </button>
+  </section>
+
+  <!-- COR SECRETA -->
+  <section id="telaSecreta" class="painel" hidden>
+    <span class="etiqueta" id="rodadaTexto"></span>
+    <div class="icone">🔒</div>
+    <h1 id="nomeDica"></h1>
+    <p class="descricao">
+      Apenas o jogador da dica deve olhar esta tela.
+    </p>
+
+    <button id="btnRevelar">
+      Revelar minha cor
+    </button>
+
+    <div id="areaSecreta" hidden>
+      <div id="corSecreta" class="cor-grande"></div>
+      <h2 id="coordenadaSecreta"></h2>
+      <p class="descricao">
+        Pense em uma dica para esta cor.
+        Não fale a coordenada!
+      </p>
+
+      <button id="btnEsconder">
+        Já dei minha dica
+      </button>
+    </div>
+  </section>
+
+  <!-- PASSAR DISPOSITIVO -->
+  <section id="telaPassagem" class="painel" hidden>
+    <div class="icone">📱</div>
+    <h1 id="tituloPassagem">Passe o dispositivo</h1>
+    <p class="descricao" id="textoPassagem"></p>
+
+    <button id="btnContinuar">
+      Estou pronto
+    </button>
+  </section>
+
+  <!-- PALPITE -->
+  <section id="telaPalpite" class="painel painel-largo" hidden>
+    <span class="etiqueta" id="vezTexto"></span>
+
+    <h1>Qual é a cor?</h1>
+    <p class="descricao">
+      Escolha a cor que combina com a dica.
+    </p>
+
+    <!-- CONTROLE DO TIMER -->
+    <div id="areaTimer" class="area-timer">
+
+      <div id="contadorPalpite" class="contador-palpite"
+           aria-live="polite">
+        ⏱️ Sem limite de tempo
+      </div>
+
+      <button id="btnIniciarTentativa" type="button">
+        🎯 Começar tentativa
+      </button>
+
+      <p id="mensagemTimer" class="descricao"></p>
+
+    </div>
+
+    <!-- TABULEIRO DE CORES -->
+    <div class="area-tabuleiro">
+      <div id="tabuleiro"></div>
+    </div>
+
+    <div class="selecao">
+      <div id="corPreview" class="cor-preview"></div>
+      <strong id="corEscolhida">Nenhuma cor</strong>
+    </div>
+
+    <button id="btnConfirmar" disabled>
+      Confirmar palpite
+    </button>
+  </section>
+
+  <!-- RESULTADO -->
+  <section id="telaResultado" class="painel painel-largo" hidden>
+    <div class="icone">🏆</div>
+    <h1>Resultado da rodada</h1>
+    <p class="descricao">
+      Veja quem chegou mais perto!
+    </p>
+
+    <div class="resultado-cores">
+      <div id="corResposta" class="cor-grande"></div>
+      <strong id="textoResposta"></strong>
+    </div>
+
+    <div class="resultado-tabuleiro">
+      <h2>🎯 Onde cada jogador apostou</h2>
+
+      <div class="area-tabuleiro">
+        <div id="tabuleiroResultado"></div>
+      </div>
+
+      <div id="legendaResultado"></div>
+    </div>
+
+    <div id="resultadosJogadores"></div>
+
+    <h2 class="titulo-ranking">Ranking</h2>
+    <div id="ranking"></div>
+
+    <button id="btnProxima">
+      Próxima rodada
+    </button>
+  </section>
+
+  <!-- FIM -->
+  <section id="telaFinal" class="painel" hidden>
+    <div class="icone">🏆</div>
+    <h1>Fim de jogo!</h1>
+    <p class="descricao">Confira o ranking final.</p>
+
+    <div id="rankingFinal"></div>
+
+    <p id="mensagemVencedor" class="mensagem-vencedor"></p>
+
+    <button id="btnReiniciar" type="button">
+      Jogar novamente
+    </button>
+
+    <button class="btn-menu" data-voltar-menu>
+      Voltar ao menu
+    </button>
+  </section>
+
+</main>
+
+<script src="jogo.js"></script>
+
+<script>
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", async () => {
+      try {
+        await navigator.serviceWorker.register(
+          "./service-worker.js"
+        );
+
+        console.log("Modo offline preparado!");
+      } catch (erro) {
+        console.error("Erro no Service Worker:", erro);
+      }
+    });
+  }
+</script>
+
+</body>
+</html>
